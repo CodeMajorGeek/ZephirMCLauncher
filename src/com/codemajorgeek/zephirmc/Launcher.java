@@ -33,7 +33,7 @@ public class Launcher {
 
 	public static void update() throws Exception {
 
-		SUpdate su = new SUpdate("http://localhost/", ZMC_DIR);
+		SUpdate su = new SUpdate("http://localhost/S-UpdateServer/", ZMC_DIR);
 		su.addApplication(new FileDeleter());
 		
 		
