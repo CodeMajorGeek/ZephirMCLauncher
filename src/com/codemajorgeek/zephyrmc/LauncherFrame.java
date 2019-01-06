@@ -1,9 +1,12 @@
-package com.codemajorgeek.zephirmc;
+package com.codemajorgeek.zephyrmc;
 
 import javax.swing.*;
 
-import fr.theshark34.openlauncherlib.launcher.util.*;
+import com.sun.awt.*;
+
 import fr.theshark34.swinger.*;
+import fr.theshark34.swinger.animation.*;
+import fr.theshark34.swinger.util.*;
 
 public class LauncherFrame extends JFrame{
 	
@@ -13,7 +16,7 @@ public class LauncherFrame extends JFrame{
 	
 	public LauncherFrame() {
 		
-		setTitle("ZephirMC Launcher");
+		setTitle("ZephyrMC Launcher");
 		setSize(975, 625);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -22,18 +25,23 @@ public class LauncherFrame extends JFrame{
 		
 		panel = new LauncherPanel();
 		setContentPane(panel);
+		AWTUtilities.setWindowOpacity(this, 0.f);
 		
 		WindowMover mover = new WindowMover(this);
 		addMouseListener(mover);
 		addMouseMotionListener(mover);
 		
 		setVisible(true);
+		
+		Animator.fadeInFrame(this, Animator.FAST);
 	}
 	
 	public static void main(String[] args) {
 		
 		Swinger.setSystemLookNFeel();
 		Swinger.setResourcePath("/res/");
+		
+		Launcher.ZMC_DIR.mkdirs();
 		
 		instance = new LauncherFrame();
 	}

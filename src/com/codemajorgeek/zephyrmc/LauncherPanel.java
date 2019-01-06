@@ -1,4 +1,4 @@
-package com.codemajorgeek.zephirmc;
+package com.codemajorgeek.zephyrmc;
 
 import static fr.theshark34.swinger.Swinger.*;
 
@@ -8,7 +8,9 @@ import java.io.*;
 import javax.swing.*;
 
 import fr.litarvan.openauth.*;
-import fr.theshark34.openlauncherlib.launcher.util.*;
+import fr.theshark34.openlauncherlib.*;
+import fr.theshark34.openlauncherlib.util.*;
+import fr.theshark34.swinger.animation.*;
 import fr.theshark34.swinger.colored.*;
 import fr.theshark34.swinger.event.*;
 import fr.theshark34.swinger.textured.*;
@@ -18,9 +20,9 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 	private static final long serialVersionUID = 4407172249765338308L;
 
 	private Image background = getResource("bg.png");
-	private UsernameSaver saver = new UsernameSaver(Launcher.ZMC_INFOS);
+	private Saver saver = new Saver(new File(Launcher.ZMC_DIR, "launcher.properties"));
 
-	private JTextField usernameField = new JTextField(saver.getUsername(""));
+	private JTextField usernameField = new JTextField(saver.get("username"));
 	private JPasswordField passwdField = new JPasswordField();
 
 	private STexturedButton playButton = new STexturedButton(getResource("play.png"));
@@ -36,16 +38,16 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 		usernameField.setBounds(595, 191, 332, 55);
 		usernameField.setOpaque(false);
 		usernameField.setBorder(null);
-		usernameField.setForeground(Color.WHITE);
+		usernameField.setForeground(Color.BLACK);
 		usernameField.setFont(usernameField.getFont().deriveFont(25F));
-		usernameField.setCaretColor(Color.WHITE);
+		usernameField.setCaretColor(Color.BLACK);
 
 		passwdField.setBounds(595, 320, 332, 55);
 		passwdField.setOpaque(false);
 		passwdField.setBorder(null);
-		passwdField.setForeground(Color.WHITE);
+		passwdField.setForeground(Color.BLACK);
 		passwdField.setFont(passwdField.getFont().deriveFont(25F));
-		passwdField.setCaretColor(Color.WHITE);
+		passwdField.setCaretColor(Color.BLACK);
 
 		playButton.setBounds(568, 467, 347, 77);
 		playButton.addEventListener(this);
@@ -131,23 +133,23 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 						return;
 					}
 					
+					saver.set("username", usernameField.getText());
 					try {
 						
 						Launcher.update();
 					} catch (Exception e) {
 						
 						Launcher.interruptThread();
-						JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, impossible de mettre le jeu a jour : " + e, "Erreur", JOptionPane.ERROR_MESSAGE);
-						setFieldEnabled(true);
+						Launcher.getCrashReporter().catchError(e, "Imposible de mettre à jour ZephyrMC !");
 						return;
 					}
 					
 					try {
 						
 						Launcher.launch();
-					} catch (IOException e) {
+					} catch (LaunchException e) {
 
-						JOptionPane.showMessageDialog(LauncherPanel.this, "Erreur, impossible de lancer le jeu : " + e, "Erreur", JOptionPane.ERROR_MESSAGE);
+						Launcher.getCrashReporter().catchError(e, "Imposible de lancer ZephyrMC !");
 						setFieldEnabled(true);
 					}
 				}
@@ -157,8 +159,15 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 
 			LauncherFrame.getInstance().setState(JFrame.ICONIFIED);
 		} else if (e.getSource().equals(quitButton)) {
-
-			System.exit(0);
+			
+			Animator.fadeOutFrame(LauncherFrame.getInstance(), Animator.FAST, new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					System.exit(0);
+				}
+			});
 		}
 	}
 }
