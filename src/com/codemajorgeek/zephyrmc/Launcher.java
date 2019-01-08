@@ -6,7 +6,7 @@ import fr.litarvan.openauth.*;
 import fr.litarvan.openauth.model.*;
 import fr.litarvan.openauth.model.response.*;
 import fr.theshark34.openlauncherlib.*;
-import fr.theshark34.openlauncherlib.internal.*;
+import fr.theshark34.openlauncherlib.external.*;
 import fr.theshark34.openlauncherlib.minecraft.*;
 import fr.theshark34.openlauncherlib.util.*;
 import fr.theshark34.supdate.*;
@@ -35,8 +35,11 @@ public class Launcher {
 	}
 
 	public static void update() throws Exception {
-
-		SUpdate su = new SUpdate("http://88.123.20.173/", ZMC_DIR);
+		
+		//TODO: temp localhost
+		SUpdate su = new SUpdate("http://127.0.0.1/", ZMC_DIR);
+		
+		//SUpdate su = new SUpdate("http://88.123.20.173/", ZMC_DIR);
 		su.addApplication(new FileDeleter());
 
 		progressBarThread = new Thread("progressBarThread") {
@@ -82,8 +85,8 @@ public class Launcher {
 	
 	public static void launch() throws LaunchException {
 		
-		InternalLaunchProfile profile = MinecraftLauncher.createInternalProfile(ZMC_INFOS, GameFolder.BASIC, authInfos);
-		InternalLauncher launcher = new InternalLauncher(profile);
+		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ZMC_INFOS, GameFolder.BASIC, authInfos);
+		ExternalLauncher launcher = new ExternalLauncher(profile);
 		
 		LauncherFrame.getInstance().setVisible(false);
 		

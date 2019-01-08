@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/openauth-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/s-update-3.1.0-BETA.jar"/>
 	<classpathentry kind="lib" path="lib/swinger-1.0.0-BETA.jar"/>
 	<classpathentry kind="lib" path="lib/openlauncherlib-3.0.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/s-update-3.1.0-BETA.jar"/>
+	<classpathentry kind="lib" path="lib/openauth-1.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
