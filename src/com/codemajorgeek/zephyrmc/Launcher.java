@@ -85,6 +85,7 @@ public class Launcher {
 	
 	public static void launch() throws LaunchException {
 		
+		//TODO: for launch Minecraft in crack mod, just create an new AuthInfos: new AuthInfos("<Name>", "0", "0")
 		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ZMC_INFOS, GameFolder.BASIC, authInfos);
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 		
