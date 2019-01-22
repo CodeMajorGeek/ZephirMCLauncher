@@ -4,10 +4,12 @@ import static fr.theshark34.swinger.Swinger.*;
 
 import java.awt.*;
 import java.io.*;
+import java.net.*;
 
 import javax.swing.*;
 
-import fr.litarvan.openauth.*;
+import org.json.*;
+
 import fr.theshark34.openlauncherlib.*;
 import fr.theshark34.openlauncherlib.util.*;
 import fr.theshark34.swinger.animation.*;
@@ -105,7 +107,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 		if (e.getSource().equals(playButton)) {
 
 			setFieldEnabled(false);
-			if (usernameField.getText().replaceAll(" ", "").length() == 0 || passwdField.getText().length() == 0) {
+			if (usernameField.getText().replaceAll(" ", "").length() == 0 || passwdField.getPassword().length == 0) {
 
 				JOptionPane.showMessageDialog(this, "Merci de rentrer un user/mdp valide !", "Erreur",
 						JOptionPane.ERROR_MESSAGE);
@@ -122,11 +124,11 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 
 					try {
 						
-						Launcher.auth(usernameField.getText(), passwdField.getText());
-					} catch (AuthenticationException e) {
+						Launcher.auth(usernameField.getText(), passwdField.getPassword());
+					} catch (MalformedURLException e) {
 
 						JOptionPane.showMessageDialog(LauncherPanel.this,
-								"Impossible de ce connecter: " + e.getErrorModel().getErrorMessage(), "Erreur",
+								"Impossible de ce connecter: " + e.getMessage(), "Erreur",
 								JOptionPane.ERROR_MESSAGE);
 						passwdField.setText("");
 						setFieldEnabled(true);
@@ -147,7 +149,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 					try {
 						
 						Launcher.launch();
-					} catch (LaunchException e) {
+					} catch (LaunchException | IOException | JSONException e) {
 
 						Launcher.getCrashReporter().catchError(e, "Imposible de lancer ZephyrMC !");
 						setFieldEnabled(true);
