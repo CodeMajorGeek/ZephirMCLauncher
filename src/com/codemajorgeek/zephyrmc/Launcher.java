@@ -19,14 +19,15 @@ public class Launcher {
 	public static final GameInfos ZMC_INFOS = new GameInfos("ZephyrMC", ZMC_VERSION, new GameTweak[] {});
 	public static final File ZMC_DIR = ZMC_INFOS.getGameDir();
 
-	private static ZephyrMCAuth zephyrMCAuth;
 	private static Thread progressBarThread;
 
 	private static CrashReporter crashReporter = new CrashReporter("crash", new File(ZMC_DIR, "crashes"));
-
+	
+	private static String UUID;
+	
 	public static void auth(String username, char[] passwd) throws MalformedURLException {
 		
-		zephyrMCAuth = new ZephyrMCAuth("http://127.0.0.1/ZephyrMCauth.php", username, passwd);
+		UUID = "000-000-000";
 	}
 
 	public static void update() throws Exception {
@@ -80,12 +81,8 @@ public class Launcher {
 
 	public static void launch() throws LaunchException, IOException, JSONException {
 
-		String UUID;
-
-		UUID = zephyrMCAuth.isExisting();
-
 		ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(ZMC_INFOS, GameFolder.BASIC,
-				new AuthInfos(zephyrMCAuth.getPseudo(), "0", UUID));
+				new AuthInfos("ZephyrTempPlayer", "0", UUID));
 		ExternalLauncher launcher = new ExternalLauncher(profile);
 
 		LauncherFrame.getInstance().setVisible(false);
