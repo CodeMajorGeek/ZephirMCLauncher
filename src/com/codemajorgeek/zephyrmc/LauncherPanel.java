@@ -140,11 +140,13 @@ public class LauncherPanel extends JPanel implements SwingerEventListener {
 						saver.set("username", usernameField.getText());
 						saver.set("password", new String(passwdField.getPassword()));
 						saver.set("checked", "true");
+						saver.save();
 					} else {
 						
 						saver.set("username", "");
 						saver.set("password", "");
 						saver.set("checked", "false");
+						saver.save();
 					}
 					try {
 
